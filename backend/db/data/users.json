@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "_id": "aaabb3af-bd32-484e-8f49-194c3fc19719",
+      "name": "Resh",
+      "email": "resh@gmail.com",
+      "password": "$2a$10$iUmNIhDkgqaA1IHdXjjd1.A8AhGEBQ0eEKidmZHYAat2iJtDrIkwy",
+      "role": "user",
+      "phone": "9841796407",
+      "createdAt": "2026-04-23T11:06:29.651Z",
+      "updatedAt": "2026-04-23T11:06:29.651Z"
+    },
+    {
+      "_id": "083d681a-15a1-4fe7-8f6a-2b53d015f558",
+      "name": "usan",
+      "email": "usan123@gmail.com",
+      "password": "$2a$10$j7cN.ART01VVscpDX8WQIObiaGOJtjEny5NWWeSi/f/2LbR4CC9BG",
+      "role": "designer",
+      "phone": "978867656",
+      "createdAt": "2026-04-23T11:07:58.546Z",
+      "updatedAt": "2026-04-23T11:07:58.546Z"
+    }
+  ]
+}
