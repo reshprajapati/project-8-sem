@@ -1,64 +1,70 @@
-import axios from 'axios';
+import {
+  authService,
+  appointmentService,
+  designService,
+  userService,
+  adminService,
+  projectService
+} from './index';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+export const register = (data) => authService.register(data);
+export const login = (data) => authService.login(data);
+export const getProfile = () => authService.getProfile();
 
-const apiClient = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
+export const createAppointment = (data) => appointmentService.createAppointment(data);
+export const getAppointments = () => appointmentService.getAppointments();
+export const getAppointment = (id) => appointmentService.getAppointment(id);
+export const updateAppointment = (id, data) => appointmentService.updateAppointment(id, data);
+export const cancelAppointment = (id) => appointmentService.cancelAppointment(id);
+export const setFieldVisitTime = (id, data) => appointmentService.setFieldVisitTime(id, data);
+export const createCoverageRequest = (data) => appointmentService.createCoverageRequest(data);
+export const getMyCoverageRequests = () => appointmentService.getMyCoverageRequests();
 
-// Add token to requests
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+export const getDesigns = (params) => designService.getDesigns(params);
+export const getDesignerDesigns = (designerId) => designService.getDesignerDesigns(designerId);
+export const getMyDesigns = () => designService.getMyDesigns();
+export const getDesign = (id) => designService.getDesign(id);
+export const createDesign = (data) => designService.createDesign(data);
+export const updateDesign = (id, data) => designService.updateDesign(id, data);
+export const deleteDesign = (id) => designService.deleteDesign(id);
+export const addReview = (id, data) => designService.addReview(id, data);
 
-// Handle response errors
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
+export const getProfile_User = () => userService.getProfile();
+export const getUserProfile = (id) => userService.getUserProfile(id);
+export const getAllDesigners = () => userService.getAllDesigners();
+export const updateUserProfile = (data) => userService.updateUserProfile(data);
+export const getDesignerSchedule = (designerId) => userService.getDesignerSchedule(designerId);
+export const uploadProfileImage = (file) => userService.uploadProfileImage(file);
+export const searchDesigners = (params) => userService.searchDesigners(params);
 
-// Auth API
-export const register = (data) => apiClient.post('/auth/register', data);
-export const login = (data) => apiClient.post('/auth/login', data);
-export const getProfile = () => apiClient.get('/auth/me');
+// Admin console
+export const getAdminOverview = () => adminService.getOverview();
+export const getAdminDesigners = () => adminService.getDesigners();
+export const createDesigner = (data) => adminService.createDesigner(data);
+export const deleteDesigner = (id) => adminService.deleteDesigner(id);
+export const updateDesignerAvailability = (designerId, availability) =>
+  adminService.updateDesignerAvailability(designerId, availability);
+export const getAllAppointments = () => adminService.getAllAppointments();
+export const getCoverageRequests = () => adminService.getCoverageRequests();
+export const getCoverageSuggestions = (id) => adminService.getCoverageSuggestions(id);
+export const assignCoverageRequest = (id, data) => adminService.assignCoverageRequest(id, data);
+export const declineCoverageRequest = (id, data) => adminService.declineCoverageRequest(id, data);
 
-// Appointments API
-export const createAppointment = (data) => apiClient.post('/appointments', data);
-export const getAppointments = () => apiClient.get('/appointments');
-export const getAppointment = (id) => apiClient.get(`/appointments/${id}`);
-export const updateAppointment = (id, data) => apiClient.put(`/appointments/${id}`, data);
-export const cancelAppointment = (id) => apiClient.put(`/appointments/${id}/cancel`);
-export const setFieldVisitTime = (id, data) => apiClient.put(`/appointments/${id}/set-visit-time`, data);
+// Project pipeline — client and designer
+export const createProject = (data) => projectService.createProject(data);
+export const getMyProjects = () => projectService.getMyProjects();
+export const cancelProject = (id) => projectService.cancelProject(id);
+export const getAssignedProjects = () => projectService.getAssignedProjects();
+export const startProject = (id, data) => projectService.startProject(id, data);
+export const submitDesign = (id, data) => projectService.submitDesign(id, data);
 
-// Designs API
-export const getDesigns = (params) => apiClient.get('/designs', { params });
-export const getDesign = (id) => apiClient.get(`/designs/${id}`);
-export const createDesign = (data) => apiClient.post('/designs', data);
-export const updateDesign = (id, data) => apiClient.put(`/designs/${id}`, data);
-export const deleteDesign = (id) => apiClient.delete(`/designs/${id}`);
-export const addReview = (id, data) => apiClient.post(`/designs/${id}/review`, data);
+// Project pipeline — admin
+export const getAdminProjects = (status) => adminService.getProjects(status);
+export const getStudioCalendar = () => adminService.getCalendar();
+export const assignProject = (id, data) => adminService.assignProject(id, data);
+export const rescheduleProject = (id, data) => adminService.rescheduleProject(id, data);
+export const approveProject = (id, data) => adminService.approveProject(id, data);
+export const rejectProject = (id, data) => adminService.rejectProject(id, data);
+export const cancelProjectAsAdmin = (id, data) => adminService.cancelProject(id, data);
 
-// Users API
-export const getProfile_User = () => apiClient.get('/users/profile/me');
-export const getUserProfile = (id) => apiClient.get(`/users/${id}`);
-export const getAllDesigners = () => apiClient.get('/users/designers');
-export const updateUserProfile = (data) => apiClient.put('/users/profile/update', data);
-export const searchDesigners = (params) => apiClient.get('/users/search', { params });
-
-export default apiClient;
+export { authService, appointmentService, designService, userService, adminService, projectService };

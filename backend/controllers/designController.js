@@ -1,4 +1,5 @@
 const Design = require('../db/Design');
+const { byNewest } = require('../algorithms');
 const User = require('../db/User');
 
 const populateDesigner = async (designerId) => {
@@ -76,243 +77,233 @@ const populateDesigns = async (designs) => {
   }));
 };
 
-// Create/Upload design
-exports.createDesign = async (req, res) => {
-  try {
-    const { title, description, surfaceType } = req.body;
+class DesignController {
+  async createDesign(req, res) {
+    try {
+      const { title, description, surfaceType } = req.body;
 
-    if (!title || !description || !surfaceType) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide title, description, and surface type'
-      });
-    }
-
-    const design = await Design.create({
-      designerId: req.userId,
-      ...buildDesignPayload(req.body)
-    });
-
-    res.status(201).json({
-      success: true,
-      message: 'Design created successfully',
-      design
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
-  }
-};
-
-// Get all public designs
-exports.getDesigns = async (req, res) => {
-  try {
-    const { category, surfaceType, designerId } = req.query;
-    const query = { isPortfolio: true };
-
-    if (category) query.category = category;
-    if (surfaceType) query.surfaceType = surfaceType;
-    if (designerId) query.designerId = designerId;
-
-    const designs = await Design.find(query);
-    const populatedDesigns = await populateDesigns(designs);
-
-    populatedDesigns.sort((a, b) =>
-      new Date(b.createdAt) - new Date(a.createdAt)
-    );
-
-    res.status(200).json({
-      success: true,
-      count: populatedDesigns.length,
-      designs: populatedDesigns
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
-  }
-};
-
-// Get a designer's public designs
-exports.getDesignerDesigns = async (req, res) => {
-  try {
-    const designs = await Design.find({
-      designerId: req.params.designerId,
-      isPortfolio: true
-    });
-
-    designs.sort((a, b) =>
-      new Date(b.createdAt) - new Date(a.createdAt)
-    );
-
-    res.status(200).json({
-      success: true,
-      count: designs.length,
-      designs
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
-  }
-};
-
-// Get all designs for the logged in designer
-exports.getMyDesigns = async (req, res) => {
-  try {
-    const designs = await Design.find({ designerId: req.userId });
-
-    designs.sort((a, b) =>
-      new Date(b.createdAt) - new Date(a.createdAt)
-    );
-
-    res.status(200).json({
-      success: true,
-      count: designs.length,
-      designs
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
-  }
-};
-
-// Get single design
-exports.getDesign = async (req, res) => {
-  try {
-    const design = await Design.findById(req.params.id);
-
-    if (!design || !design.isPortfolio) {
-      return res.status(404).json({
-        success: false,
-        message: 'Design not found'
-      });
-    }
-
-    const designerData = await populateDesigner(design.designerId);
-
-    res.status(200).json({
-      success: true,
-      design: {
-        ...design,
-        designerId: designerData
+      if (!title || !description || !surfaceType) {
+        return res.status(400).json({
+          success: false,
+          message: 'Please provide title, description, and surface type'
+        });
       }
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
+
+      const design = await Design.create({
+        designerId: req.userId,
+        ...buildDesignPayload(req.body)
+      });
+
+      res.status(201).json({
+        success: true,
+        message: 'Design created successfully',
+        design
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message
+      });
+    }
   }
-};
 
-// Update design
-exports.updateDesign = async (req, res) => {
-  try {
-    let design = await Design.findById(req.params.id);
+  async getDesigns(req, res) {
+    try {
+      const { category, surfaceType, designerId } = req.query;
+      const query = { isPortfolio: true };
 
-    if (!design) {
-      return res.status(404).json({
+      if (category) query.category = category;
+      if (surfaceType) query.surfaceType = surfaceType;
+      if (designerId) query.designerId = designerId;
+
+      const designs = await Design.find(query);
+      const populatedDesigns = await populateDesigns(designs);
+
+      populatedDesigns.sort(byNewest);
+
+      res.status(200).json({
+        success: true,
+        count: populatedDesigns.length,
+        designs: populatedDesigns
+      });
+    } catch (err) {
+      res.status(500).json({
         success: false,
-        message: 'Design not found'
+        message: err.message
       });
     }
-
-    if (design.designerId !== req.userId) {
-      return res.status(403).json({
-        success: false,
-        message: 'Not authorized to update this design'
-      });
-    }
-
-    design = await Design.findByIdAndUpdate(
-      req.params.id,
-      buildDesignPayload(req.body, { partial: true })
-    );
-
-    res.status(200).json({
-      success: true,
-      message: 'Design updated successfully',
-      design
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
   }
-};
 
-// Delete design
-exports.deleteDesign = async (req, res) => {
-  try {
-    const design = await Design.findById(req.params.id);
+  async getDesignerDesigns(req, res) {
+    try {
+      const designs = await Design.find({
+        designerId: req.params.designerId,
+        isPortfolio: true
+      });
 
-    if (!design) {
-      return res.status(404).json({
+      designs.sort(byNewest);
+
+      res.status(200).json({
+        success: true,
+        count: designs.length,
+        designs
+      });
+    } catch (err) {
+      res.status(500).json({
         success: false,
-        message: 'Design not found'
+        message: err.message
       });
     }
-
-    if (design.designerId !== req.userId) {
-      return res.status(403).json({
-        success: false,
-        message: 'Not authorized to delete this design'
-      });
-    }
-
-    await Design.findByIdAndDelete(req.params.id);
-
-    res.status(200).json({
-      success: true,
-      message: 'Design deleted successfully'
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
   }
-};
 
-// Add review to design
-exports.addReview = async (req, res) => {
-  try {
-    const { rating, comment } = req.body;
+  async getMyDesigns(req, res) {
+    try {
+      const designs = await Design.find({ designerId: req.userId });
 
-    let design = await Design.findById(req.params.id);
+      designs.sort(byNewest);
 
-    if (!design) {
-      return res.status(404).json({
+      res.status(200).json({
+        success: true,
+        count: designs.length,
+        designs
+      });
+    } catch (err) {
+      res.status(500).json({
         success: false,
-        message: 'Design not found'
+        message: err.message
       });
     }
+  }
 
-    design = await Design.findByIdAndUpdate(req.params.id, {
-      clientReview: {
-        rating,
-        comment,
-        reviewedBy: req.userId
+  async getDesign(req, res) {
+    try {
+      const design = await Design.findById(req.params.id);
+
+      if (!design || !design.isPortfolio) {
+        return res.status(404).json({
+          success: false,
+          message: 'Design not found'
+        });
       }
-    });
 
-    res.status(200).json({
-      success: true,
-      message: 'Review added successfully',
-      design
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
+      const designerData = await populateDesigner(design.designerId);
+
+      res.status(200).json({
+        success: true,
+        design: {
+          ...design,
+          designerId: designerData
+        }
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message
+      });
+    }
   }
-};
+
+  async updateDesign(req, res) {
+    try {
+      let design = await Design.findById(req.params.id);
+
+      if (!design) {
+        return res.status(404).json({
+          success: false,
+          message: 'Design not found'
+        });
+      }
+
+      if (design.designerId !== req.userId) {
+        return res.status(403).json({
+          success: false,
+          message: 'Not authorized to update this design'
+        });
+      }
+
+      design = await Design.findByIdAndUpdate(
+        req.params.id,
+        buildDesignPayload(req.body, { partial: true })
+      );
+
+      res.status(200).json({
+        success: true,
+        message: 'Design updated successfully',
+        design
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message
+      });
+    }
+  }
+
+  async deleteDesign(req, res) {
+    try {
+      const design = await Design.findById(req.params.id);
+
+      if (!design) {
+        return res.status(404).json({
+          success: false,
+          message: 'Design not found'
+        });
+      }
+
+      if (design.designerId !== req.userId) {
+        return res.status(403).json({
+          success: false,
+          message: 'Not authorized to delete this design'
+        });
+      }
+
+      await Design.findByIdAndDelete(req.params.id);
+
+      res.status(200).json({
+        success: true,
+        message: 'Design deleted successfully'
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message
+      });
+    }
+  }
+
+  async addReview(req, res) {
+    try {
+      const { rating, comment } = req.body;
+
+      let design = await Design.findById(req.params.id);
+
+      if (!design) {
+        return res.status(404).json({
+          success: false,
+          message: 'Design not found'
+        });
+      }
+
+      design = await Design.findByIdAndUpdate(req.params.id, {
+        clientReview: {
+          rating,
+          comment,
+          reviewedBy: req.userId
+        }
+      });
+
+      res.status(200).json({
+        success: true,
+        message: 'Review added successfully',
+        design
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message
+      });
+    }
+  }
+}
+
+module.exports = new DesignController();

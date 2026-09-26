@@ -5,7 +5,9 @@ const {
   getAppointment,
   updateAppointment,
   cancelAppointment,
-  setFieldVisitTime
+  setFieldVisitTime,
+  createCoverageRequest,
+  getMyCoverageRequests
 } = require('../controllers/appointmentController');
 const { authMiddleware, requireRole } = require('../middleware/auth');
 
@@ -15,6 +17,11 @@ router.use(authMiddleware);
 
 router.post('/', createAppointment);
 router.get('/', getAppointments);
+
+// Static paths must be declared before '/:id' so they are not swallowed by it.
+router.post('/coverage-requests', createCoverageRequest);
+router.get('/coverage-requests', getMyCoverageRequests);
+
 router.get('/:id', getAppointment);
 router.put('/:id', updateAppointment);
 router.put('/:id/cancel', cancelAppointment);

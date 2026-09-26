@@ -1,0 +1,67 @@
+{
+  "projects": [
+    {
+      "_id": "c0320325-614f-484a-9acb-c0d68d560352",
+      "status": "approved",
+      "designerId": "6ca15e64-72f4-4acd-b508-ba81078c67c7",
+      "assignedByAdminId": "1c872cb9-b8d7-47af-93df-2e00557a51c5",
+      "scheduledAt": "2026-09-17T07:15:00.000Z",
+      "adminNote": "",
+      "designerNote": "",
+      "submission": {
+        "title": "5 pristine white kitchen",
+        "description": "this can be the best design ",
+        "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeMxn4legu5ScAptY5MqnNQuQv865GgmhIVX6u55AiUg&s=10",
+        "notes": "",
+        "submittedAt": "2026-09-13T07:09:38.788Z"
+      },
+      "submittedAt": "2026-09-13T07:09:38.788Z",
+      "approvedAt": "2026-09-13T07:10:08.353Z",
+      "rejectionReason": "",
+      "history": [
+        {
+          "action": "requested",
+          "by": "aaabb3af-bd32-484e-8f49-194c3fc19719",
+          "at": "2026-09-13T07:01:16.545Z"
+        },
+        {
+          "action": "assigned",
+          "by": "1c872cb9-b8d7-47af-93df-2e00557a51c5",
+          "designerId": "6ca15e64-72f4-4acd-b508-ba81078c67c7",
+          "scheduledAt": "2026-09-17T07:15:00.000Z",
+          "at": "2026-09-13T07:02:38.158Z"
+        },
+        {
+          "action": "started",
+          "by": "6ca15e64-72f4-4acd-b508-ba81078c67c7",
+          "at": "2026-09-13T07:03:57.696Z"
+        },
+        {
+          "action": "submitted",
+          "by": "6ca15e64-72f4-4acd-b508-ba81078c67c7",
+          "at": "2026-09-13T07:09:38.788Z"
+        },
+        {
+          "action": "approved",
+          "by": "1c872cb9-b8d7-47af-93df-2e00557a51c5",
+          "at": "2026-09-13T07:10:08.353Z"
+        }
+      ],
+      "clientId": "aaabb3af-bd32-484e-8f49-194c3fc19719",
+      "title": "5 pristine white kitchen",
+      "description": "Many may be skeptical of an all-white kitchen, particularly in the context of an Indian home. However, when used correctly, white kitchen designs can create a sense of spaciousness even in the most compact areas. The colour white is versatile— it reflects natural light beautifully, adding much needed brightness and illumination to a room that is often closed off; it also serves a fitting backdrop for more subtler interventions like brass accents and textured backsplashes. Explore the many different ways in which these Indian homes incorporate white kitchen designs into their interiors.\n\n",
+      "surfaceArea": "kitchen",
+      "location": {
+        "street": "Bhaktapur",
+        "city": "Bhaktapur",
+        "state": "bagmati",
+        "zipCode": "44800",
+        "country": "Nepal"
+      },
+      "budget": 120000,
+      "preferredDate": null,
+      "createdAt": "2026-09-13T07:01:16.546Z",
+      "updatedAt": "2026-09-13T07:10:08.353Z"
+    }
+  ]
+}

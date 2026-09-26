@@ -1,177 +1,332 @@
 .designer-profile {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
+  display: grid;
+  gap: 24px;
+}
+
+.profile-header,
+.social-links,
+.portfolio-section,
+.booking-section {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
 }
 
 .profile-header {
-  background: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
-  display: flex;
-  gap: 30px;
-  align-items: flex-start;
+  padding: 32px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.profile-image,
+.profile-image-placeholder {
+  width: 160px;
+  height: 160px;
+  border-radius: 28px;
 }
 
 .profile-image {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
   object-fit: cover;
 }
 
 .profile-image-placeholder {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #e76f51 0%, #f4a261 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
+  font-size: 3.4rem;
+  font-weight: 800;
   color: white;
 }
 
+.profile-info {
+  display: grid;
+  gap: 12px;
+}
+
+.profile-title-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+}
+
 .profile-info h1 {
-  color: #333;
-  margin: 0 0 10px 0;
-  font-size: 28px;
+  color: #111827;
+  margin: 0 0 6px;
+  font-size: 2rem;
 }
 
 .specialization {
-  color: #667eea;
-  font-weight: 600;
-  font-size: 16px;
-  margin: 5px 0;
+  color: #7c3aed;
+  font-weight: 700;
+  margin: 0;
+}
+
+.open-slot-badge {
+  background: #dbeafe;
+  color: #1d4ed8;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .experience,
-.location {
-  color: #666;
-  font-size: 14px;
-  margin: 5px 0;
+.location,
+.bio,
+.booking-note p {
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.6;
 }
 
-.bio {
-  color: #666;
-  margin-top: 15px;
-  line-height: 1.6;
-  font-size: 14px;
+.bio.muted {
+  color: #94a3b8;
 }
 
 .social-links {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
+  padding: 20px 24px;
   display: flex;
-  gap: 15px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .social-links a {
-  display: inline-block;
-  padding: 10px 15px;
-  background: #667eea;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  background: #0f766e;
   color: white;
   text-decoration: none;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
 }
 
 .social-links a:hover {
-  background: #764ba2;
+  background: #115e59;
 }
 
-.portfolio-section {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.booking-alert {
+  padding: 14px 18px;
+  border-radius: 18px;
+  font-weight: 700;
 }
 
-.portfolio-section h2 {
-  color: #333;
-  margin-top: 0;
-  margin-bottom: 20px;
+.booking-alert.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.booking-alert.error {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 24px;
+}
+
+.portfolio-section,
+.booking-section {
+  padding: 28px;
+  display: grid;
+  gap: 22px;
+}
+
+.section-heading h2 {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 1.45rem;
+}
+
+.section-heading p {
+  margin: 0;
+  color: #64748b;
 }
 
 .designs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  gap: 18px;
 }
 
 .design-item {
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .design-item:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.1);
 }
 
-.design-item h3 {
-  color: #333;
-  margin: 0 0 10px 0;
-  font-size: 16px;
+.design-item.selected {
+  border-color: #0f766e;
 }
 
-.surface,
-.category,
-.design-description {
-  color: #666;
-  font-size: 13px;
-  margin: 5px 0;
+.design-cover {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  background: #e5e7eb;
+}
+
+.design-cover.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #cdb4db 0%, #ffc8dd 100%);
+  color: #4a044e;
+  font-weight: 800;
+}
+
+.design-body {
+  padding: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.design-headline {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.design-headline h3 {
+  margin: 0;
+  color: #111827;
 }
 
 .category {
-  display: inline-block;
-  background: #f0f0f0;
-  padding: 3px 8px;
-  border-radius: 3px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
-.rating {
-  color: #ffc107;
-  font-weight: 600;
-  margin: 10px 0 5px 0;
+.surface,
+.design-meta {
+  color: #64748b;
+  margin: 0;
+}
+
+.surface {
+  font-weight: 700;
+  color: #0f766e;
+}
+
+.design-description {
+  margin: 0;
+  color: #334155;
+  line-height: 1.6;
 }
 
 .cost {
-  color: #28a745;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 10px;
+  margin: 0;
+  color: #166534;
+  font-size: 1.05rem;
+  font-weight: 800;
 }
 
-.error {
-  background: white;
-  padding: 40px;
+.selected-design-card,
+.selected-slot-banner,
+.booking-note {
+  background: #f8fafc;
+  border: 1px solid #dbe2ea;
+  border-radius: 18px;
+  padding: 14px 16px;
+}
+
+.selected-design-card {
+  display: grid;
+  gap: 4px;
+}
+
+.selected-design-card span {
+  color: #64748b;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.selected-design-card strong,
+.selected-slot-banner strong {
+  color: #111827;
+}
+
+.selected-slot-banner.coverage {
+  background: #fff7ed;
+  border-color: #fed7aa;
+  color: #9a3412;
+}
+
+.selected-slot-banner.coverage strong {
+  color: #7c2d12;
+}
+
+.booking-form {
+  display: grid;
+  gap: 18px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.form-grid .full-width {
+  grid-column: 1 / -1;
+}
+
+.empty-state {
+  background: #f8fafc;
+  padding: 32px;
+  border-radius: 18px;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
   text-align: center;
-  border-radius: 10px;
-  color: #dc3545;
+}
+
+@media (max-width: 960px) {
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
   .profile-header {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+
+  .profile-title-row,
+  .design-headline {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
+    align-items: flex-start;
   }
 
-  .portfolio-section {
-    padding: 20px;
+  .portfolio-section,
+  .booking-section {
+    padding: 22px;
   }
 
-  .designs-grid {
+  .form-grid {
     grid-template-columns: 1fr;
   }
 }

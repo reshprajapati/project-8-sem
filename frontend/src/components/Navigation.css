@@ -1,4 +1,4 @@
-.navbar {
+ .navbar {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   height: 80px;
   display: flex;
@@ -33,23 +33,24 @@
 
 .nav-menu {
   display: flex;
+  align-items: center;
   list-style: none;
   text-align: center;
   gap: 30px;
 }
 
 .nav-item {
-  height: 80px;
-  line-height: 80px;
+  display: flex;
+  align-items: center;
 }
 
 .nav-link {
   color: #fff;
   text-decoration: none;
   padding: 0 15px;
-  height: 100%;
   display: flex;
   align-items: center;
+  line-height: 1.2;
   transition: all 0.3s ease;
   border-bottom: 3px solid transparent;
 }
@@ -62,9 +63,23 @@
 .user-info {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 20px;
-  padding: 5px 15px;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 15px;
   cursor: default;
   border-bottom: none;
+}
+
+.user-name,
+.user-role {
+  display: block;
+  white-space: nowrap;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  opacity: 0.85;
 }
 
 .logout-btn {

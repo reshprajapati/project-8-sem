@@ -1,0 +1,91 @@
+{
+  "appointments": [
+    {
+      "_id": "5b62e4e2-1fee-4954-b435-51a294abd3b5",
+      "userId": "fd7add36-625e-4b95-89be-b57801bb5860",
+      "designerId": "53e03b3c-5d1f-4ac5-94b3-129157e2a025",
+      "appointmentTime": "2026-04-24T12:09:00.000Z",
+      "location": {
+        "street": "suryabinyak",
+        "city": "bhaktapur",
+        "state": "bagmati",
+        "zipCode": "12345",
+        "country": "Nepal"
+      },
+      "surfaceArea": "living-room",
+      "budget": 500,
+      "description": "I would like to discuss a project inspired by \"kitchen \".",
+      "designId": "27ac8e49-fba5-41d0-80eb-cd92f1fd82a5",
+      "designTitle": "kitchen ",
+      "status": "confirmed",
+      "createdAt": "2026-04-23T12:17:40.736Z",
+      "updatedAt": "2026-04-23T12:19:44.892Z",
+      "fieldVisitTime": "2026-04-23T12:19:00.000Z"
+    },
+    {
+      "_id": "26cf02c0-cceb-454a-bdcb-ecdfc2e53f3c",
+      "userId": "86c0f8d9-af40-45c3-a86b-88d8474c485a",
+      "designerId": "53e03b3c-5d1f-4ac5-94b3-129157e2a025",
+      "appointmentTime": "2026-04-28T12:09:00.000Z",
+      "location": {
+        "street": "suryabinyak",
+        "city": "bhaktapur",
+        "state": "bagmati",
+        "zipCode": "12345",
+        "country": "Nepal"
+      },
+      "surfaceArea": "living-room",
+      "budget": 500,
+      "description": "",
+      "designId": null,
+      "designTitle": "",
+      "status": "cancelled",
+      "createdAt": "2026-04-23T15:51:09.854Z",
+      "updatedAt": "2026-07-28T13:55:08.541Z"
+    },
+    {
+      "_id": "e9365852-78de-4138-a695-4026f211dbd0",
+      "userId": "aaabb3af-bd32-484e-8f49-194c3fc19719",
+      "designerId": "6ca15e64-72f4-4acd-b508-ba81078c67c7",
+      "appointmentTime": "2026-10-14T07:27:00.000Z",
+      "location": {
+        "street": "talako ",
+        "city": "bhaktapur",
+        "state": "bagmati",
+        "zipCode": "12345",
+        "country": "nepal"
+      },
+      "surfaceArea": "bathroom",
+      "budget": 50000,
+      "description": "i want interior of my bathroom up to budget under 50000",
+      "designId": "7c03031f-838a-4bf3-8b21-c5585359f612",
+      "designTitle": "Luxury Marble Bathroom",
+      "status": "confirmed",
+      "createdAt": "2026-09-07T16:32:09.733Z",
+      "updatedAt": "2026-09-13T06:01:32.546Z",
+      "fieldVisitTime": "2026-09-12T20:45:00.000Z"
+    },
+    {
+      "_id": "2afd0db0-3970-4faa-93b4-993a94d0c0eb",
+      "userId": "aaabb3af-bd32-484e-8f49-194c3fc19719",
+      "designerId": "6ca15e64-72f4-4acd-b508-ba81078c67c7",
+      "appointmentTime": "2026-09-27T17:15:00.000Z",
+      "location": {
+        "street": "talako ",
+        "city": "bhaktapur",
+        "state": "bagmati",
+        "zipCode": "12345",
+        "country": "nepal"
+      },
+      "surfaceArea": "living-room",
+      "budget": 49998,
+      "description": "I would like to discuss a project inspired by \"Luxury Bedroom\".",
+      "designId": "e4e1928d-a6a9-4d06-b614-294d45b5c50d",
+      "designTitle": "Luxury Bedroom",
+      "status": "confirmed",
+      "createdAt": "2026-09-12T15:36:50.161Z",
+      "updatedAt": "2026-09-13T06:01:19.084Z",
+      "fieldVisitTime": "2026-09-13T07:15:00.000Z"
+    }
+  ]
+}

@@ -1,10 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 
-const Home = () => {
-  return (
-    <div className="home">
+const featuredDesigners = [
+  {
+    id: 1,
+    name: 'Ava Martinez',
+    specialization: 'Luxury Residential',
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 2,
+    name: 'Noah Bennett',
+    specialization: 'Modern Interiors',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 3,
+    name: 'Sophia Chen',
+    specialization: 'Commercial Spaces',
+    image: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=400&q=80'
+  }
+];
+
+class Home extends Component {
+  render() {
+    return (
+      <div className="home">
       <section className="hero">
         <h1>Welcome to Interior Design Studio</h1>
         <p>Connect with professional designers and transform your spaces</p>
@@ -25,9 +47,20 @@ const Home = () => {
             <h3>🎨 Quality Designs</h3>
             <p>Get beautiful, customized interior designs tailored to your needs and budget.</p>
           </div>
-          <div className="feature-card">
+          <div className="feature-card designer-feature-card">
             <h3>👥 Expert Designers</h3>
             <p>Connect with experienced and certified interior design professionals.</p>
+            <div className="designer-photos">
+              {featuredDesigners.map((designer) => (
+                <div key={designer.id} className="designer-photo-item">
+                  <img src={designer.image} alt={designer.name} />
+                  <div className="designer-photo-meta">
+                    <strong>{designer.name}</strong>
+                    <span>{designer.specialization}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="feature-card">
             <h3>📸 Portfolio Showcase</h3>
@@ -70,7 +103,8 @@ const Home = () => {
         </div>
       </section>
     </div>
-  );
-};
+    );
+  }
+}
 
 export default Home;

@@ -11,11 +11,45 @@ A professional MERN stack web application designed for interior designers and cl
 - **Track Appointments**: Monitor upcoming and past appointments
 
 ### For Designers
+- **See Your Schedule**: Booking dates are opened for you by the studio admin
 - **Manage Appointments**: View and confirm appointment requests
 - **Set Field Visit Times**: Schedule site visits for measurements and consultations
 - **Upload Designs**: Share design mockups for specific surfaces/rooms
 - **Portfolio Showcase**: Display completed projects to attract clients
 - **Design Management**: Organize and categorize design projects
+
+### For the Studio Admin
+- **Own Every Calendar**: Open and close booking dates for each designer
+- **Add Designers**: Create designer accounts from the console
+- **Cover Packed Dates**: When a client wants a day a designer cannot take, appoint another designer who is free
+- **Full Visibility**: Every appointment in the studio in one table
+
+## 🗓️ Scheduling Workflow
+
+The admin owns scheduling. Designers only read what the admin opens for them.
+
+1. The admin opens booking dates on a designer's calendar.
+2. A client picks an open time and books it directly. No admin involvement.
+3. When every time on a date is taken, that date shows as **Packed** on the
+   designer's public calendar.
+4. A client can still pick a packed date. Instead of a booking, it creates a
+   **coverage request** in the admin queue.
+5. The admin opens the request, sees which designers are free that day ranked by
+   who is least loaded, and appoints one. That creates the appointment on the
+   substitute's calendar and records who it is covering for.
+
+### Creating the admin account
+
+Admins cannot be registered through the public signup form. Seed the first one:
+
+```bash
+cd backend
+npm run seed:admin
+```
+
+Credentials come from `ADMIN_EMAIL`, `ADMIN_PASSWORD` and `ADMIN_NAME` in `.env`.
+They default to `admin@studio.local` / `admin123` for local development, so
+change them before deploying.
 
 ## 🏗️ Tech Stack
 

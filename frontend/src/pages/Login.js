@@ -1,81 +1,89 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../services/api';
 import './Auth.css';
 
-const Login = ({ onLogin }) => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      formData: { email: '', password: '' },
+      error: '',
+      loading: false
+    };
+  }
 
-  const handleChange = (e) => {
+  handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    this.setState(prev => ({ formData: { ...prev.formData, [name]: value } }));
   };
 
-  const handleSubmit = async (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
+    this.setState({ error: '', loading: true });
 
     try {
-      const response = await login(formData);
-      onLogin(response.data.user, response.data.token);
-      navigate('/');
+      const response = await login(this.state.formData);
+      this.props.onLogin(response.data.user, response.data.token);
+      this.props.navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
+      console.error('Login request failed:', err);
+      const message = err.response?.data?.message
+        || (err.request ? 'Cannot connect to the backend. Start the server on port 5000 and refresh this page.' : null)
+        || 'Login failed. Please try again.';
+      this.setState({ error: message });
     } finally {
-      setLoading(false);
+      this.setState({ loading: false });
     }
   };
 
-  return (
-    <div className="auth-container">
-      <div className="auth-box">
-        <h1>Login</h1>
-        {error && <div className="error-alert">{error}</div>}
-        
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
+  render() {
+    const { formData, error, loading } = this.state;
 
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
+    return (
+      <div className="auth-container">
+        <div className="auth-box">
+          <h1>Login</h1>
+          {error && <div className="error-alert">{error}</div>}
+          
+          <form onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={this.handleChange}
+                required
+              />
+            </div>
 
-          <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-        </form>
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={this.handleChange}
+                required
+              />
+            </div>
 
-        <p className="auth-link">
-          Don't have an account? <Link to="/register">Register here</Link>
-        </p>
+            <button type="submit" className="btn btn-primary" disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
+            </button>
+          </form>
+
+          <p className="auth-link">
+            Don't have an account? <Link to="/register">Register here</Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default Login;
+export default function LoginWithNavigate(props) {
+  const navigate = useNavigate();
+  return <Login {...props} navigate={navigate} />;
+}

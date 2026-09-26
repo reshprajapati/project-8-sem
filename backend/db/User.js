@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
-const { db } = require('./init');
+const BaseModel = require('./BaseModel');
 
 const normalizeAvailability = (availability = []) => {
   if (!Array.isArray(availability)) {
@@ -44,9 +44,12 @@ const hydrateUser = (user) => {
   return hydratedUser;
 };
 
-// User Model
-class UserModel {
-  static async create(userData) {
+class UserModel extends BaseModel {
+  constructor() {
+    super('users');
+  }
+
+  async create(userData) {
     const user = {
       _id: uuidv4(),
       bio: '',
@@ -57,78 +60,58 @@ class UserModel {
       socialLinks: {},
       availability: [],
       ...userData,
-      availability: normalizeAvailability(userData.availability),
-      createdAt: new Date(),
-      updatedAt: new Date()
+      availability: normalizeAvailability(userData.availability)
     };
 
-    // Hash password
     if (user.password) {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(user.password, salt);
     }
 
-    db.users.data.users.push(user);
-    await db.users.write();
+    const created = await super.create(user);
+    return hydrateUser(created);
+  }
+
+  async findOne(query) {
+    const user = await super.findOne(query);
     return hydrateUser(user);
   }
 
-  static async findOne(query) {
-    const user = db.users.data.users.find(user => {
-      return Object.keys(query).every(key => user[key] === query[key]);
-    });
-
+  async findById(id) {
+    const user = await super.findById(id);
     return hydrateUser(user);
   }
 
-  static async findById(id) {
-    const user = db.users.data.users.find(user => user._id === id);
-    return hydrateUser(user);
+  async find(query = {}) {
+    const users = await super.find(query);
+    return users.map(hydrateUser);
   }
 
-  static async find(query = {}) {
-    if (Object.keys(query).length === 0) {
-      return db.users.data.users.map(hydrateUser);
-    }
-
-    return db.users.data.users.filter(user => {
-      return Object.keys(query).every(key => user[key] === query[key]);
-    }).map(hydrateUser);
-  }
-
-  static async findByIdAndUpdate(id, updates) {
-    const index = db.users.data.users.findIndex(user => user._id === id);
-    if (index === -1) return null;
+  async findByIdAndUpdate(id, updates) {
     const nextUpdates = { ...updates };
 
     if (Object.prototype.hasOwnProperty.call(nextUpdates, 'availability')) {
       nextUpdates.availability = normalizeAvailability(nextUpdates.availability);
     }
 
-    const user = { ...db.users.data.users[index], ...nextUpdates, updatedAt: new Date() };
-    db.users.data.users[index] = user;
-    await db.users.write();
+    const user = await super.findByIdAndUpdate(id, nextUpdates);
     return hydrateUser(user);
   }
 
-  static async findByIdAndDelete(id) {
-    const index = db.users.data.users.findIndex(user => user._id === id);
-    if (index === -1) return null;
-    const user = db.users.data.users[index];
-    db.users.data.users.splice(index, 1);
-    await db.users.write();
+  async findByIdAndDelete(id) {
+    const user = await super.findByIdAndDelete(id);
     return hydrateUser(user);
   }
 
-  static async updateOne(query, updates) {
-    const user = await this.findOne(query);
+  async updateOne(query, updates) {
+    const user = await super.findOne(query);
     if (!user) return null;
     return this.findByIdAndUpdate(user._id, updates);
   }
 
-  static select(fields) {
+  select(fields) {
     return this;
   }
 }
 
-module.exports = UserModel;
+module.exports = new UserModel();

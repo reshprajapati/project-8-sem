@@ -1,0 +1,99 @@
+.designer-projects-loading {
+  color: #6b7280;
+  margin: 0;
+}
+
+.assigned-list {
+  display: grid;
+  gap: 16px;
+}
+
+.assigned-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 20px;
+  display: grid;
+  gap: 8px;
+  background: #ffffff;
+}
+
+.assigned-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.assigned-head h3 {
+  margin: 0 0 4px;
+  font-size: 1.08rem;
+}
+
+.assigned-meta {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+
+.assigned-brief {
+  margin: 0;
+  color: #374151;
+  font-size: 0.94rem;
+}
+
+.assigned-detail {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.88rem;
+}
+
+.assigned-note {
+  margin: 0;
+  color: #1e40af;
+  font-size: 0.88rem;
+}
+
+.revision-note {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #9a3412;
+  font-size: 0.9rem;
+}
+
+.submitted-note {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #9a3412;
+  font-size: 0.9rem;
+}
+
+.approved-note {
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #166534;
+  font-size: 0.9rem;
+}
+
+.submit-form {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+  margin-top: 6px;
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+}
+
+.submit-form .form-group {
+  width: 100%;
+}
+
+.submit-form textarea {
+  min-height: 90px;
+}

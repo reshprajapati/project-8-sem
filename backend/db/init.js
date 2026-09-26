@@ -1,43 +1,58 @@
-const { Low, JSONFile } = require('lowdb');
-const path = require('path');
+/**
+ * Chooses the storage driver and exposes it to the models.
+ *
+ *   DB_DRIVER=file   (default) JSON files in db/data/ - no server needed
+ *   DB_DRIVER=mongo            MongoDB via Mongoose
+ *
+ * Both adapters implement the same interface, so nothing above this file
+ * changes when the driver changes.
+ */
+const fileAdapter = require('./adapters/fileAdapter');
+const mongoAdapter = require('./adapters/mongoAdapter');
 
-// Database file paths
-const dbDir = path.join(__dirname, 'data');
-const dbPaths = {
-  users: path.join(dbDir, 'users.json'),
-  appointments: path.join(dbDir, 'appointments.json'),
-  designs: path.join(dbDir, 'designs.json')
+const ADAPTERS = {
+  file: fileAdapter,
+  mongo: mongoAdapter
 };
 
-let db = {};
+let adapter = null;
 
-// Initialize database
+const selectAdapter = () => {
+  const driver = (process.env.DB_DRIVER || 'file').toLowerCase();
+
+  if (!ADAPTERS[driver]) {
+    throw new Error(
+      `Unknown DB_DRIVER "${driver}". Use one of: ${Object.keys(ADAPTERS).join(', ')}`
+    );
+  }
+
+  return ADAPTERS[driver];
+};
+
 async function initDB() {
+  adapter = selectAdapter();
+
   try {
-    // Create users DB
-    const usersAdapter = new JSONFile(dbPaths.users);
-    db.users = new Low(usersAdapter);
-    await db.users.read();
-    db.users.data ||= { users: [] };
-
-    // Create appointments DB
-    const appointmentsAdapter = new JSONFile(dbPaths.appointments);
-    db.appointments = new Low(appointmentsAdapter);
-    await db.appointments.read();
-    db.appointments.data ||= { appointments: [] };
-
-    // Create designs DB
-    const designsAdapter = new JSONFile(dbPaths.designs);
-    db.designs = new Low(designsAdapter);
-    await db.designs.read();
-    db.designs.data ||= { designs: [] };
-
-    console.log('✅ File-based database initialized successfully');
-    return db;
+    await adapter.init();
   } catch (err) {
-    console.error('❌ Database initialization error:', err);
+    if (adapter.name === 'mongo') {
+      throw new Error(
+        `Could not connect to MongoDB: ${err.message}\n` +
+        '   Check that the MongoDB service is running, or set DB_DRIVER=file to use the JSON store.'
+      );
+    }
     throw err;
   }
+
+  console.log(`✅ Connected to ${adapter.describe()}`);
+  return adapter;
 }
 
-module.exports = { initDB, db };
+const getAdapter = () => {
+  if (!adapter) {
+    throw new Error('Database not initialised. Call initDB() before using any model.');
+  }
+  return adapter;
+};
+
+module.exports = { initDB, getAdapter };
